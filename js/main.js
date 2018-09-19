@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function() {
         this.initSlotIndex = 0;
         this.currSlotIndex = 0;
         this.initFiguresIndexes = [];
-        this.slotsSpinningStatus = false;
+        this.slotsRollingStatus = false;
         this.currMatch = 0;
         this.figuresOffsetAmount = 2;
         this.figuresAmount = document.querySelectorAll(this.selector + ' ul')[0].querySelectorAll('li').length;
@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             if (keyWasPressed && userCanHitAgain) {
                 lastHitTime = Date.now(),
-                matchHasStarted = !sm.slotsSpinningStatus;
+                matchHasStarted = !sm.slotsRollingStatus;
 
                 if (sm.currMatch % sm.maxMatches === 0) {
                     sm.currMatch = 0;
@@ -84,7 +84,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     allSameCombo = sm.generateRandomCombo('all-same');
                     twoSameCombo = sm.generateRandomCombo('two-same');
                     console.log('GAME ON!');
-                    sm.slotsSpinningStatus = true;
+                    sm.slotsRollingStatus = true;
 
                     sm.audio('play', sm.audioFileRoll, 1, true);
 
@@ -97,7 +97,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     for (var i = 0; i < sm.slots.length; i++) {
                         sm.animateSlot('stop', i, allSameCombo[i]);
                     }
-                    sm.slotsSpinningStatus = false;
+                    sm.slotsRollingStatus = false;
 
                     sm.audio('pause', sm.audioFileRoll, 1, false);
                     sm.audio('play', sm.audioFileRollStop, 1, false);
@@ -107,7 +107,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     for (var i = 0; i < sm.slots.length; i++) {
                         sm.animateSlot('stop', i, sm.superPrizeFigureIndex);
                     }
-                    sm.slotsSpinningStatus = false;
+                    sm.slotsRollingStatus = false;
 
                     sm.audio('pause', sm.audioFileRoll, 1, false);
                     sm.audio('play', sm.audioFileRollStop, 1, false);
@@ -118,7 +118,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     for (var i = 0; i < sm.slots.length; i++) {
                         sm.animateSlot('stop', i, twoSameCombo[i]);
                     }
-                    sm.slotsSpinningStatus = false;;
+                    sm.slotsRollingStatus = false;;
 
                     sm.audio('pause', sm.audioFileRoll, 1, false);
                     sm.audio('play', sm.audioFileRollStop, 1, false);
