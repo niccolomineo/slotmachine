@@ -20,10 +20,16 @@ document.addEventListener("DOMContentLoaded", function() {
         this.figuresOffsetAmount = 2;
         this.figuresAmount = document.querySelectorAll(this.selector + ' ul')[0].querySelectorAll('li').length;
         this.initialSpeed = 1;
-        this.frameRate = frameRate || 30;
+        this.frameRate = frameRate || 60;
         this.maxSpeed = 200;
         this.maxBlur = maxBlur || 20;
         this.hitDelay = hitDelay || 300;
+        this.dirSnd = 'snd';
+        this.audioBgMusic = new Audio(this.dirSnd + '/bg_music.mp3');
+        this.audioFileRoll = new Audio(this.dirSnd + '/roll.mp3');
+        this.audioFileRollStop = new Audio(this.dirSnd + '/roll_stop.mp3');
+        this.audioCrappyWon = new Audio(this.dirSnd + '/crappy_won.mp3');
+        this.audioSuperPrize = new Audio(this.dirSnd + '/superprize.mp3');
         this.maxMatches = 300;
         this.superPrizeWinningMatchesSequencesCap = 10;
         this.allSameWinningMatchesSequencesCap = 20;
@@ -51,6 +57,8 @@ document.addEventListener("DOMContentLoaded", function() {
         allSameCombo,
         twoSameCombo;
 
+        sm.audio('play', sm.audioBgMusic, 0.2, true);
+
         document.body.addEventListener("keyup", function(e) {
             var keyWasPressed = e.keyCode === sm.keyToPress,
             currTime = Date.now();
@@ -77,6 +85,9 @@ document.addEventListener("DOMContentLoaded", function() {
                     twoSameCombo = sm.generateRandomCombo('two-same');
                     console.log('GAME ON!');
                     sm.slotsSpinningStatus = true;
+
+                    sm.audio('play', sm.audioFileRoll, 1, true);
+
                     for (var i = 0; i < sm.slots.length; i++) {
                         sm.animateSlot('start', i, SlotMachine.initFiguresIndexes[i]);
                     }
@@ -87,6 +98,9 @@ document.addEventListener("DOMContentLoaded", function() {
                         sm.animateSlot('stop', i, allSameCombo[i]);
                     }
                     sm.slotsSpinningStatus = false;
+
+                    sm.audio('pause', sm.audioFileRoll, 1, false);
+                    sm.audio('play', sm.audioFileRollStop, 1, false);
                     break;
                     case superPrizeWinningMatchesSequences.indexOf(sm.currMatch) > -1:
                     console.log('Current Match: ' + sm.currMatch + ' - super prize!');
@@ -94,13 +108,21 @@ document.addEventListener("DOMContentLoaded", function() {
                         sm.animateSlot('stop', i, sm.superPrizeFigureIndex);
                     }
                     sm.slotsSpinningStatus = false;
+
+                    sm.audio('pause', sm.audioFileRoll, 1, false);
+                    sm.audio('play', sm.audioFileRollStop, 1, false);
+                    sm.audio('play', sm.audioSuperPrize, 0.2, false);
                     break;
                     default:
                     console.log('Current Match: ' + sm.currMatch + ' - two slots are the same!');
                     for (var i = 0; i < sm.slots.length; i++) {
                         sm.animateSlot('stop', i, twoSameCombo[i]);
                     }
-                    sm.slotsSpinningStatus = false;
+                    sm.slotsSpinningStatus = false;;
+
+                    sm.audio('pause', sm.audioFileRoll, 1, false);
+                    sm.audio('play', sm.audioFileRollStop, 1, false);
+                    sm.audio('play', sm.audioCrappyWon, 0.4, false);
                 }
             }
         });
@@ -114,8 +136,9 @@ document.addEventListener("DOMContentLoaded", function() {
             maxMatchesCollection[maxMatchesAmount] = maxMatchesAmount+1;
         }
 
-        var uniqueWinningMatchesSequences = sm.getRandomIntsAmount(maxMatchesCollection, sm.winningMatchesSequencesCap),
-        uniqueMatchesSequences = uniqueWinningMatchesSequences.splice(0, sm.uniqueWinningMatchesSequencesCap),
+        var uniqueWinningMatchesSequences = sm.getRandomIntsAmount(maxMatchesCollection, sm.winningMatchesSequencesCap);
+
+        var uniqueMatchesSequences = uniqueWinningMatchesSequences.splice(0, sm.uniqueWinningMatchesSequencesCap),
         superPrizeMatchesSequences = uniqueWinningMatchesSequences.splice(0, sm.superPrizeWinningMatchesSequencesCap);
         var allSameMatchesSequences = uniqueWinningMatchesSequences.filter(function(i) { return superPrizeMatchesSequences.indexOf(i) < 0; });
 
@@ -199,6 +222,20 @@ document.addEventListener("DOMContentLoaded", function() {
         }, sm.slots[slotIndex].delay);
     }
 
+    SlotMachine.prototype.audio = function(action, audioObject, volumeLevels, loopEnabled) {
+        audioObject.volume = volumeLevels;
+        switch (action) {
+            case 'play':
+            audioObject.loop = loopEnabled;
+            audioObject.play();
+            break;
+            case 'pause':
+            audioObject.loop = loopEnabled;
+            audioObject.pause();
+            break;
+        }
+    }
+
     function Slot(startAtFigureIndex, delay) {
         this.curr = document.querySelectorAll(SlotMachine.selector + ' ul')[SlotMachine.initSlotIndex];
         var firstFigure = this.curr.querySelectorAll('li')[0].cloneNode(true),
@@ -246,7 +283,7 @@ document.addEventListener("DOMContentLoaded", function() {
             var isNextFigure = Math.abs(s.posY) % s.height === 0;
 
             if (isNextFigure) {
-            // console.log(s.currFigureIndex + '/' + SlotMachine.figuresAmount + ' at pos: ' + s.posY + ' from: -' + (s.height * s.currFigureIndex) + 'px to: -' + (s.height * (s.currFigureIndex+1)) + 'px');
+                // console.log(s.currFigureIndex + '/' + SlotMachine.figuresAmount + ' at pos: ' + s.posY + ' from: -' + (s.height * s.currFigureIndex) + 'px to: -' + (s.height * (s.currFigureIndex+1)) + 'px');
                 var isLastFigure = s.currFigureIndex === SlotMachine.figuresAmount;
                 if (isLastFigure) {
                     s.currFigureIndex = SlotMachine.figuresOffsetAmount/2;
