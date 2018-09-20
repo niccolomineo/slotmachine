@@ -101,6 +101,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
                     sm.audio('pause', sm.audioFileRoll, 1, false);
                     sm.audio('play', sm.audioFileRollStop, 1, false);
+                    sm.audio('play', sm.audioCrappyWon, 0.4, false);
                     break;
                     case superPrizeWinningMatchesSequences.indexOf(sm.currMatch) > -1:
                     console.log('Current Match: ' + sm.currMatch + ' - super prize!');
@@ -118,11 +119,10 @@ document.addEventListener("DOMContentLoaded", function() {
                     for (var i = 0; i < sm.slots.length; i++) {
                         sm.animateSlot('stop', i, twoSameCombo[i]);
                     }
-                    sm.slotsRollingStatus = false;;
+                    sm.slotsRollingStatus = false;
 
                     sm.audio('pause', sm.audioFileRoll, 1, false);
                     sm.audio('play', sm.audioFileRollStop, 1, false);
-                    sm.audio('play', sm.audioCrappyWon, 0.4, false);
                 }
             }
         });
