@@ -308,8 +308,10 @@ document.addEventListener("DOMContentLoaded", function() {
             if (isNextFigure) {
                 s.currFigureIndex = (s.currFigureIndex % SlotMachine.figuresAmount)+1;
             }
+            
             s.requestedAnimationFrameAcceleration = window.requestAnimationFrame(s.accelerate);
         };
+
         s.accelerate();
     }
 
@@ -319,7 +321,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if(!s.requestedAnimationFrameAcceleration) return false;
 
         window.cancelAnimationFrame(s.requestedAnimationFrameAcceleration);
-        
+
         s.blurIntensity = 0;
         s.speed = SlotMachine.initialSpeed;
         s.posY = -(s.height * (atFigureIndex));
