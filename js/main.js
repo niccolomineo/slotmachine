@@ -319,7 +319,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if(!s.requestedAnimationFrameAcceleration) return false;
 
         window.cancelAnimationFrame(s.requestedAnimationFrameAcceleration);
-
+        
         s.blurIntensity = 0;
         s.speed = SlotMachine.initialSpeed;
         s.posY = -(s.height * (atFigureIndex));
