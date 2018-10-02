@@ -1,8 +1,8 @@
 # Slot Machine
 
-A basic slot machine game logic, playable as it is, but customisable further, too:
+A basic slot machine game logic, playable as it is, but customizable further, too:
 
-* Instantiate as many slot machines as you wish and specify a custom `selector`, `frameRate`, `maxBlur`, `hitDelay`, `superPrizeFigureIndex` and `keyToPress`
+* Instantiate as many slot machines as you wish and specify a custom `selector`, `maxBlur`, `hitDelay`, `superPrizeFigureIndex` and `keyToPress`
 * Instantiate as many slots as you wish and specify a custom `startAtFigureIndex` and `delay`
 
 See demo [here](http://www.niccolomineo.com/demos/slotmachine/).
