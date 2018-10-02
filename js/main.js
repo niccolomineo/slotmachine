@@ -7,7 +7,7 @@
 
 document.addEventListener("DOMContentLoaded", function() {
 
-    function SlotMachine(selector, frameRate, maxBlur, hitDelay, superPrizeFigureIndex, keyToPress) {
+    function SlotMachine(selector, maxBlur, hitDelay, superPrizeFigureIndex, keyToPress) {
         this.selector = selector;
         this.superPrizeFigureIndex = superPrizeFigureIndex;
         this.keyToPress = keyToPress;
@@ -20,7 +20,6 @@ document.addEventListener("DOMContentLoaded", function() {
         this.figuresOffsetAmount = 2;
         this.figuresAmount = document.querySelectorAll(this.selector + ' ul')[0].querySelectorAll('li').length;
         this.initialSpeed = 1;
-        this.frameRate = frameRate || 60;
         this.maxSpeed = 200;
         this.maxBlur = maxBlur || 20;
         this.hitDelay = hitDelay || 300;
@@ -28,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function() {
         this.audioBgMusic = new Audio(this.dirSnd + '/bg_music.mp3');
         this.audioFileRoll = new Audio(this.dirSnd + '/roll.mp3');
         this.audioFileRollStop = new Audio(this.dirSnd + '/roll_stop.mp3');
-        this.audioCrappyWon = new Audio(this.dirSnd + '/crappy_won.mp3');
+        this.audioCrappyWin = new Audio(this.dirSnd + '/crappy_win.mp3');
         this.audioSuperPrize = new Audio(this.dirSnd + '/superprize.mp3');
         this.maxMatches = 300;
         this.superPrizeWinningMatchesSequencesCap = 10;
@@ -101,7 +100,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
                     sm.audio('pause', sm.audioFileRoll, 1, false);
                     sm.audio('play', sm.audioFileRollStop, 1, false);
-                    sm.audio('play', sm.audioCrappyWon, 0.4, false);
+                    sm.audio('play', sm.audioCrappyWin, 0.4, false);
                     break;
                     case superPrizeWinningMatchesSequences.indexOf(sm.currMatch) > -1:
                     console.log('Current Match: ' + sm.currMatch + ' - super prize!');
@@ -279,7 +278,7 @@ document.addEventListener("DOMContentLoaded", function() {
     Slot.prototype.start = function() {
         var s = this;
 
-        s.accelerate = setInterval(function() {
+        s.accelerate = function() {
             var isNextFigure = Math.abs(s.posY) % s.height === 0;
 
             if (isNextFigure) {
@@ -309,13 +308,18 @@ document.addEventListener("DOMContentLoaded", function() {
             if (isNextFigure) {
                 s.currFigureIndex = (s.currFigureIndex % SlotMachine.figuresAmount)+1;
             }
-        }, 1000/SlotMachine.frameRate);
+            s.requestedAnimationFrameAcceleration = window.requestAnimationFrame(s.accelerate);
+        };
+        s.accelerate();
     }
 
     Slot.prototype.stop = function(atFigureIndex) {
         var s = this;
 
-        clearInterval(s.accelerate);
+        if(!s.requestedAnimationFrameAcceleration) return false;
+
+        window.cancelAnimationFrame(s.requestedAnimationFrameAcceleration);
+
         s.blurIntensity = 0;
         s.speed = SlotMachine.initialSpeed;
         s.posY = -(s.height * (atFigureIndex));
@@ -324,7 +328,7 @@ document.addEventListener("DOMContentLoaded", function() {
         s.curr.style.filter = 'blur(' + s.blurIntensity + 'px)';
     }
 
-    var SlotMachine = new SlotMachine('#slotmachine', 60, 20, 300, 6, 32);
+    var SlotMachine = new SlotMachine('#slotmachine', 20, 300, 6, 32);
     var Slot1 = new Slot('random');
     var Slot2 = new Slot('random', 130);
     var Slot3 = new Slot('random', 90);
