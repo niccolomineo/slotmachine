@@ -135,11 +135,10 @@ document.addEventListener("DOMContentLoaded", function() {
             maxMatchesCollection[maxMatchesAmount] = maxMatchesAmount+1;
         }
 
-        var uniqueWinningMatchesSequences = sm.getRandomIntsAmount(maxMatchesCollection, sm.winningMatchesSequencesCap);
-
-        var uniqueMatchesSequences = uniqueWinningMatchesSequences.splice(0, sm.uniqueWinningMatchesSequencesCap),
-        superPrizeMatchesSequences = uniqueWinningMatchesSequences.splice(0, sm.superPrizeWinningMatchesSequencesCap);
-        var allSameMatchesSequences = uniqueWinningMatchesSequences.filter(function(i) { return superPrizeMatchesSequences.indexOf(i) < 0; });
+        var winningMatchesSequences = sd.getRandomIntsAmount(maxMatchesCollection, sd.winningMatchesSequencesCap);
+        var uniqueMatchesSequences = winningMatchesSequences.splice(0, sd.uniqueWinningMatchesSequencesCap),
+        superPrizeMatchesSequences = winningMatchesSequences.splice(0, sd.superPrizeWinningMatchesSequencesCap),
+        allSameMatchesSequences = winningMatchesSequences.splice(0, sd.allSameWinningMatchesSequencesCap);
 
         return {
             unique : uniqueMatchesSequences,
@@ -308,7 +307,7 @@ document.addEventListener("DOMContentLoaded", function() {
             if (isNextFigure) {
                 s.currFigureIndex = (s.currFigureIndex % SlotMachine.figuresAmount)+1;
             }
-            
+
             s.requestedAnimationFrameAcceleration = window.requestAnimationFrame(s.accelerate);
         };
 
