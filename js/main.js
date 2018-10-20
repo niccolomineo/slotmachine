@@ -135,10 +135,10 @@ document.addEventListener("DOMContentLoaded", function() {
             maxMatchesCollection[maxMatchesAmount] = maxMatchesAmount+1;
         }
 
-        var winningMatchesSequences = sd.getRandomIntsAmount(maxMatchesCollection, sd.winningMatchesSequencesCap);
-        var uniqueMatchesSequences = winningMatchesSequences.splice(0, sd.uniqueWinningMatchesSequencesCap),
-        superPrizeMatchesSequences = winningMatchesSequences.splice(0, sd.superPrizeWinningMatchesSequencesCap),
-        allSameMatchesSequences = winningMatchesSequences.splice(0, sd.allSameWinningMatchesSequencesCap);
+        var winningMatchesSequences = sm.getRandomIntsAmount(maxMatchesCollection, sm.winningMatchesSequencesCap);
+        var uniqueMatchesSequences = winningMatchesSequences.splice(0, sm.uniqueWinningMatchesSequencesCap),
+        superPrizeMatchesSequences = winningMatchesSequences.splice(0, sm.superPrizeWinningMatchesSequencesCap),
+        allSameMatchesSequences = winningMatchesSequences.splice(0, sm.allSameWinningMatchesSequencesCap);
 
         return {
             unique : uniqueMatchesSequences,
