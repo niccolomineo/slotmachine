@@ -31,9 +31,10 @@ document.addEventListener("DOMContentLoaded", function() {
         this.audioSuperPrize = new Audio(this.dirSnd + '/superprize.mp3');
         this.maxMatches = 300;
         this.superPrizeWinningMatchesSequencesCap = 10;
-        this.allSameWinningMatchesSequencesCap = 20;
+        this.twoSameWinningMatchesSequencesCap = 20;
+        this.threeSameWinningMatchesSequencesCap = 20;
         this.uniqueWinningMatchesSequencesCap = 20;
-        this.winningMatchesSequencesCap = this.superPrizeWinningMatchesSequencesCap + this.uniqueWinningMatchesSequencesCap + this.allSameWinningMatchesSequencesCap;
+        this.winningMatchesSequencesCap = this.superPrizeWinningMatchesSequencesCap + this.uniqueWinningMatchesSequencesCap + this.twoSameWinningMatchesSequencesCap + this.threeSameWinningMatchesSequencesCap;
         this.init();
     }
 
@@ -50,10 +51,11 @@ document.addEventListener("DOMContentLoaded", function() {
         lastHitTime = 0,
         winningMatchesSequences = function() {},
         superPrizeWinningMatchesSequences = [],
-        allSameWinningMatchesSequences = [],
+        twoSameWinningMatchesSequences = [],
+        threeSameWinningMatchesSequences = [],
         uniqueWinningMatchesSequences = [],
         uniqueCombo,
-        allSameCombo,
+        threeSameCombo,
         twoSameCombo;
 
         sm.audio('play', sm.audioBgMusic, 0.2, true);
@@ -71,16 +73,17 @@ document.addEventListener("DOMContentLoaded", function() {
                     sm.currMatch = 0;
                     winningMatchesSequences = sm.generateWinningMatchesSequences();
                     superPrizeWinningMatchesSequences = winningMatchesSequences.superPrize;
-                    allSameWinningMatchesSequences = winningMatchesSequences.allSame;
+                    twoSameWinningMatchesSequences = winningMatchesSequences.twoSame;
+                    threeSameWinningMatchesSequences = winningMatchesSequences.threeSame;
                     uniqueWinningMatchesSequences = winningMatchesSequences.unique;
-                    console.log('Super Prize sequence: ', superPrizeWinningMatchesSequences, 'All The Same sequence: ', allSameWinningMatchesSequences, 'Unique sequence: ', uniqueWinningMatchesSequences);
+                    console.log('Super Prize sequence: ', superPrizeWinningMatchesSequences, 'Two Of The Same sequence: ', twoSameWinningMatchesSequences, 'All The Same sequence: ', threeSameWinningMatchesSequences, 'Unique sequence: ', uniqueWinningMatchesSequences);
                 }
 
                 switch (true) {
                     case matchHasStarted:
                     sm.currMatch++;
                     uniqueCombo = sm.generateRandomCombo('unique');
-                    allSameCombo = sm.generateRandomCombo('all-same');
+                    threeSameCombo = sm.generateRandomCombo('all-same');
                     twoSameCombo = sm.generateRandomCombo('two-same');
                     console.log('GAME ON!');
                     sm.slotsRollingStatus = true;
@@ -90,17 +93,6 @@ document.addEventListener("DOMContentLoaded", function() {
                     for (var i = 0; i < sm.slots.length; i++) {
                         sm.animateSlot('start', i, SlotMachine.initFiguresIndexes[i]);
                     }
-                    break;
-                    case allSameWinningMatchesSequences.indexOf(sm.currMatch) > -1:
-                    console.log('Current Match: ' + sm.currMatch + ' - all slots are the same!');
-                    for (var i = 0; i < sm.slots.length; i++) {
-                        sm.animateSlot('stop', i, allSameCombo[i]);
-                    }
-                    sm.slotsRollingStatus = false;
-
-                    sm.audio('pause', sm.audioFileRoll, 1, false);
-                    sm.audio('play', sm.audioFileRollStop, 1, false);
-                    sm.audio('play', sm.audioCrappyWin, 0.4, false);
                     break;
                     case superPrizeWinningMatchesSequences.indexOf(sm.currMatch) > -1:
                     console.log('Current Match: ' + sm.currMatch + ' - super prize!');
@@ -113,10 +105,32 @@ document.addEventListener("DOMContentLoaded", function() {
                     sm.audio('play', sm.audioFileRollStop, 1, false);
                     sm.audio('play', sm.audioSuperPrize, 0.2, false);
                     break;
-                    default:
+                    case twoSameWinningMatchesSequences.indexOf(sm.currMatch) > -1:
                     console.log('Current Match: ' + sm.currMatch + ' - two slots are the same!');
                     for (var i = 0; i < sm.slots.length; i++) {
                         sm.animateSlot('stop', i, twoSameCombo[i]);
+                    }
+                    sm.slotsRollingStatus = false;
+
+                    sm.audio('pause', sm.audioFileRoll, 1, false);
+                    sm.audio('play', sm.audioFileRollStop, 1, false);
+                    sm.audio('play', sm.audioCrappyWin, 0.4, false);
+                    break;
+                    case threeSameWinningMatchesSequences.indexOf(sm.currMatch) > -1:
+                    console.log('Current Match: ' + sm.currMatch + ' - all slots are the same!');
+                    for (var i = 0; i < sm.slots.length; i++) {
+                        sm.animateSlot('stop', i, threeSameCombo[i]);
+                    }
+                    sm.slotsRollingStatus = false;
+
+                    sm.audio('pause', sm.audioFileRoll, 1, false);
+                    sm.audio('play', sm.audioFileRollStop, 1, false);
+                    sm.audio('play', sm.audioCrappyWin, 0.4, false);
+                    break;
+                    default:
+                    console.log('Current Match: ' + sm.currMatch + ' - all different slots!');
+                    for (var i = 0; i < sm.slots.length; i++) {
+                        sm.animateSlot('stop', i, uniqueCombo[i]);
                     }
                     sm.slotsRollingStatus = false;
 
@@ -138,12 +152,14 @@ document.addEventListener("DOMContentLoaded", function() {
         var winningMatchesSequences = sm.getRandomIntsAmount(maxMatchesCollection, sm.winningMatchesSequencesCap);
         var uniqueMatchesSequences = winningMatchesSequences.splice(0, sm.uniqueWinningMatchesSequencesCap),
         superPrizeMatchesSequences = winningMatchesSequences.splice(0, sm.superPrizeWinningMatchesSequencesCap),
-        allSameMatchesSequences = winningMatchesSequences.splice(0, sm.allSameWinningMatchesSequencesCap);
+        twoSameMatchesSequences = winningMatchesSequences.splice(0, sm.twoSameWinningMatchesSequencesCap);
+        threeSameMatchesSequences = winningMatchesSequences.splice(0, sm.threeSameWinningMatchesSequencesCap);
 
         return {
             unique : uniqueMatchesSequences,
             superPrize : superPrizeMatchesSequences,
-            allSame : allSameMatchesSequences,
+            twoSame : twoSameMatchesSequences,
+            threeSame : threeSameMatchesSequences,
         }
     }
 
