@@ -33,8 +33,7 @@ document.addEventListener("DOMContentLoaded", function() {
         this.superPrizeWinningMatchesSequencesCap = 10;
         this.twoSameWinningMatchesSequencesCap = 20;
         this.threeSameWinningMatchesSequencesCap = 20;
-        this.uniqueWinningMatchesSequencesCap = 20;
-        this.winningMatchesSequencesCap = this.superPrizeWinningMatchesSequencesCap + this.uniqueWinningMatchesSequencesCap + this.twoSameWinningMatchesSequencesCap + this.threeSameWinningMatchesSequencesCap;
+        this.winningMatchesSequencesCap = this.superPrizeWinningMatchesSequencesCap + this.twoSameWinningMatchesSequencesCap + this.threeSameWinningMatchesSequencesCap;
         this.init();
     }
 
@@ -53,7 +52,6 @@ document.addEventListener("DOMContentLoaded", function() {
         superPrizeWinningMatchesSequences = [],
         twoSameWinningMatchesSequences = [],
         threeSameWinningMatchesSequences = [],
-        uniqueWinningMatchesSequences = [],
         uniqueCombo,
         threeSameCombo,
         twoSameCombo;
@@ -75,8 +73,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     superPrizeWinningMatchesSequences = winningMatchesSequences.superPrize;
                     twoSameWinningMatchesSequences = winningMatchesSequences.twoSame;
                     threeSameWinningMatchesSequences = winningMatchesSequences.threeSame;
-                    uniqueWinningMatchesSequences = winningMatchesSequences.unique;
-                    console.log('Super Prize sequence: ', superPrizeWinningMatchesSequences, 'Two Of The Same sequence: ', twoSameWinningMatchesSequences, 'All The Same sequence: ', threeSameWinningMatchesSequences, 'Unique sequence: ', uniqueWinningMatchesSequences);
+                    console.log('Super Prize sequence: ', superPrizeWinningMatchesSequences, 'Two Of The Same sequence: ', twoSameWinningMatchesSequences, 'All The Same sequence: ', threeSameWinningMatchesSequences);
                 }
 
                 switch (true) {
@@ -150,13 +147,11 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         var winningMatchesSequences = sm.getRandomIntsAmount(maxMatchesCollection, sm.winningMatchesSequencesCap);
-        var uniqueMatchesSequences = winningMatchesSequences.splice(0, sm.uniqueWinningMatchesSequencesCap),
-        superPrizeMatchesSequences = winningMatchesSequences.splice(0, sm.superPrizeWinningMatchesSequencesCap),
+        var superPrizeMatchesSequences = winningMatchesSequences.splice(0, sm.superPrizeWinningMatchesSequencesCap),
         twoSameMatchesSequences = winningMatchesSequences.splice(0, sm.twoSameWinningMatchesSequencesCap);
         threeSameMatchesSequences = winningMatchesSequences.splice(0, sm.threeSameWinningMatchesSequencesCap);
 
         return {
-            unique : uniqueMatchesSequences,
             superPrize : superPrizeMatchesSequences,
             twoSame : twoSameMatchesSequences,
             threeSame : threeSameMatchesSequences,
