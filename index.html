@@ -1,41 +1,67 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <meta name="robots" content="noindex,nofollow"/>
-    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
-    <title>Slot Machine</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=2.0">
-    <link rel="stylesheet" href="css/main.css" type="text/css" media="screen"/>
+  <meta name="robots" content="noindex,nofollow" />
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+  <title>Slot Machine</title>
+  <meta name="description" content="The popular game, with multiple settings and prizes">
+  <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=2.0">
+  <meta property="og:title" content="Slot Machine">
+  <meta property="og:image" content="http://niccolomineo.com/og-image.jpg">
+  <meta property="og:description" content="The popular game, with multiple settings and prizes">
+  <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+  <link rel="stylesheet" href="css/slotmachine.css" type="text/css" media="screen" />
+  <link rel="stylesheet" href="css/overlay.css" type="text/css" media="screen" />
 </head>
+
 <body>
-    <div id="slotmachine-container">
-        <div id="slotmachine">
-            <ul id="slot1">
-                <li><img src="img/slot1.png" /></li>
-                <li><img src="img/slot2.png" /></li>
-                <li><img src="img/slot3.png" /></li>
-                <li><img src="img/slot4.png" /></li>
-                <li><img src="img/slot5.png" /></li>
-                <li><img src="img/slot6.png" /></li>
-            </ul>
-            <ul id="slot2">
-                <li><img src="img/slot1.png" /></li>
-                <li><img src="img/slot2.png" /></li>
-                <li><img src="img/slot3.png" /></li>
-                <li><img src="img/slot4.png" /></li>
-                <li><img src="img/slot5.png" /></li>
-                <li><img src="img/slot6.png" /></li>
-            </ul>
-            <ul id="slot3">
-                <li><img src="img/slot1.png" /></li>
-                <li><img src="img/slot2.png" /></li>
-                <li><img src="img/slot3.png" /></li>
-                <li><img src="img/slot4.png" /></li>
-                <li><img src="img/slot5.png" /></li>
-                <li><img src="img/slot6.png" /></li>
-            </ul>
-        </div>
+  <div id="slotmachine-container">
+    <div id="slotmachine">
+      <ul id="slot1">
+        <li><img src="img/slot1.png" /></li>
+        <li><img src="img/slot2.png" /></li>
+        <li><img src="img/slot3.png" /></li>
+        <li><img src="img/slot4.png" /></li>
+        <li><img src="img/slot5.png" /></li>
+        <li><img src="img/slot6.png" /></li>
+      </ul>
+      <ul id="slot2">
+        <li><img src="img/slot1.png" /></li>
+        <li><img src="img/slot2.png" /></li>
+        <li><img src="img/slot3.png" /></li>
+        <li><img src="img/slot4.png" /></li>
+        <li><img src="img/slot5.png" /></li>
+        <li><img src="img/slot6.png" /></li>
+      </ul>
+      <ul id="slot3">
+        <li><img src="img/slot1.png" /></li>
+        <li><img src="img/slot2.png" /></li>
+        <li><img src="img/slot3.png" /></li>
+        <li><img src="img/slot4.png" /></li>
+        <li><img src="img/slot5.png" /></li>
+        <li><img src="img/slot6.png" /></li>
+      </ul>
     </div>
-    <script src="js/main.js"></script>
+  </div>
+  <div id="overlay-container">
+    <div id="overlay">
+      <h1>
+        Slotmachine
+      </h1>
+      <p>
+        &lt; Space &gt; to roll the slots
+      </p>
+      <p>
+        &lt; m &gt; to enable background music
+      </p>
+      <p>
+        &lt; Enter &gt; to go to game
+      </p>
+    </div>
+  </div>
+  <script src="js/overlay.js"></script>
+  <script src="js/slotmachine.js"></script>
 </body>
+
 </html>

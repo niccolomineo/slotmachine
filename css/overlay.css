@@ -1,0 +1,36 @@
+#overlay-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  font-family: 'Press Start 2P', cursive;
+}
+
+#overlay {
+  height: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  padding: 20px;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  line-height: 1.6;
+}
+
+#overlay h1 {
+  letter-spacing: .7em;
+  text-transform: uppercase;
+}
+
+#overlay p:nth-of-type(3) {
+  width: 100%;
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  padding-top: 25px;
+  border-top: 2px solid darkgray;
+}

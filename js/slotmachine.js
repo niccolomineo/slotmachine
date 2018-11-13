@@ -56,9 +56,11 @@ document.addEventListener("DOMContentLoaded", function() {
         threeSameCombo,
         twoSameCombo;
 
-        sm.audio('play', sm.audioBgMusic, 0.2, true);
-
         document.body.addEventListener("keyup", function(e) {
+            var mWasPressed = e.keyCode === 77;
+            if(mWasPressed) {
+                sm.audio('play', sm.audioBgMusic, 0.2, true);
+            }
             var keyWasPressed = e.keyCode === sm.keyToPress,
             currTime = Date.now();
             userCanHitAgain =  currTime - lastHitTime > sm.hitDelay;
@@ -276,7 +278,6 @@ document.addEventListener("DOMContentLoaded", function() {
             default:
             idx = SlotMachine.figuresOffsetAmount/2;
         }
-        console.log('Start Figure Index: ', idx);
         return idx;
     }
 
